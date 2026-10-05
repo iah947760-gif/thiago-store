@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiago Store - Free Fire</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap');
+        
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            font-family: 'Oswald', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .tarjeta-principal {
+            background: #111827;
+            border: 2px solid #1f2937;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #38bdf8;
+            text-transform: uppercase;
+            margin: 0 0 5px 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        
+        .subtitulo {
+            color: #9ca3af;
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        /* PESTAÑAS */
+        .pestanas {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            margin-bottom: 25px;
+            background: #0b0f19;
+            padding: 5px;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+        }
+
+        .btn-pestana {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            padding: 10px 5px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.95em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .btn-pestana.activo {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+        }
+
+        h2 {
+            color: #38bdf8;
+            font-size: 1.3em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-align: left;
+            border-left: 4px solid #2563eb;
+            padding-left: 10px;
+        }
+        
+        .contenedor-apilado {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; 
+            margin-bottom: 20px;
+        }
+        
+        .item-precio {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1f2937;
+            border: 1px solid #374151;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 1.15em;
+            transition: all 0.2s;
+        }
+        
+        .item-precio:hover {
+            border-color: #38bdf8;
+            background: #374151;
+        }
+        
+        .producto { color: #f3f4f6; font-weight: bold; }
+        .bono { color: #38bdf8; font-size: 0.85em; margin-left: 5px; }
+        .precio { color: #4ade80; font-weight: bold; font-size: 1.15em; }
+        
+        .seccion-contenido {
+            display: none;
+        }
+
+        .seccion-contenido.activo {
+            display: block;
+        }
+
+        .formulario-compra {
+            background: #0b0f19;
+            border: 1px solid #1f2937;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .formulario-compra label {
+            display: block;
+            margin-top: 12px;
+            color: #9ca3af;
+            font-size: 1em;
+            text-transform: uppercase;
+        }
+
+        .formulario-compra input, .formulario-compra select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background: #111827;
+            border: 1px solid #374151;
+            color: white;
+            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1em;
+            box-sizing: border-box;
+        }
+
+        .formulario-compra input:focus, .formulario-compra select:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .btn-comprar {
+            width: 100%;
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.2em;
+            font-weight: bold;
+            font-family: 'Oswald', sans-serif;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+            transition: background 0.2s;
+        }
+
+        .btn-comprar:hover {
+            background: #16a34a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tarjeta-principal">
+        <h1>THIAGO STORE</h1>
+        <div class="subtitulo">RECARGAS FREE FIRE</div>
+
+        <!-- PESTAÑAS DE NAVEGACIÓN -->
+        <div class="pestanas">
+            <button class="btn-pestana activo" onclick="cambiarPestana('infinitos', event)">Diamantes</button>
+            <button class="btn-pestana" onclick="cambiarPestana('por_id', event)">1 Vez por ID</button>
+            <button class="btn-pestana" onclick="cambiarPestana('otros', event)">Pases y Objetos</button>
+        </div>
+
+        <!-- CONTENIDO PESTAÑA 1: DIAMANTES INFINITOS -->
+        <div id="tab-infinitos" class="seccion-contenido activo">
+            <h2>Diamantes Infinitos</h2>
+            <div class="contenedor-apilado">
+                <div class="item-precio"><div class="producto">100 Diamantes <span class="bono">+10 BONO</span></div><div class="precio">$1.290</div></div>
+                <div class="item-precio"><div class="producto">310 Diamantes <span class="bono">+31 BONO</span></div><div class="precio">$3.770</div></div>
+                <div class="item-precio"><div class="producto">520 Diamantes <span class="bono">+52 BONO</span></div><div class="precio">$6.160</div></div>
+                <div class="item-precio"><div class="producto">1060 Diamantes <span class="bono">+106 BONO</span></div><div class="precio">$11.200</div></div>
+                <div class="item-precio"><div class="producto">2160 Diamantes <span class="bono">+218 BONO</span></div><div class="precio">$21.960</div></div>
+                <div class="item-precio"><div class="producto">5600 Diamantes <span class="bono">+560 BONO</span></div><div class="precio">$55.400</div></div>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PESTAÑA 2: DIAMANTES 1 VEZ POR ID -->
+        <div id="tab-por_id" class="seccion-contenido">
+            <h2>Diamantes (1 Vez por ID)</h2>
+            <div class="contenedor-apilado">
+                <div class="item-precio"><div class="producto">110 Diamantes</div><div class="precio">$900</div></div>
+                <div class="item-precio"><div class="producto">341 Diamantes</div><div class="precio">$2.900</div></div>
+                <div class="item-precio"><div class="producto">572 Diamantes</div><div class="precio">$4.700</div></div>
+                <div class="item-precio"><div class="producto">1.166 Diamantes</div><div class="precio">$9.000</div></div>
+                <div class="item-precio"><div class="producto">2.398 Diamantes</div><div class="precio">$18.000</div></div>
+                <div class="item-precio"><div class="producto">6.160 Diamantes</div><div class="precio">$44.400</div></div>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PESTAÑA 3: PASES Y OTROS ARTÍCULOS -->
+        <div id="tab-otros" class="seccion-contenido">
+            <h2>Pases y Objetos</h2>
+            <div class="contenedor-apilado">
+                <div class="item-precio"><div class="producto">Pases</div><div class="precio">$1.900</div></div>
+                <div class="item-precio"><div class="producto">Fragmentos</div><div class="precio">$90 c/u</div></div>
+                <div class="item-precio"><div class="producto">Cajas EVOS</div><div class="precio">$300 c/u</div></div>
+            </div>
+        </div>
+
+        <!-- FORMULARIO DE COMPRA -->
+        <div class="formulario-compra">
+            <h2 style="margin-top: 0; border-left-color: #22c55e;">Haz tu pedido</h2>
+            
+            <label>ID del Jugador:</label>
+            <input type="text" id="id_jugador" placeholder="Ingresa tu ID de Free Fire">
+            
+            <label>¿Qué vas a comprar?</label>
+            <select id="tipo_compra" onchange="sincronizarPestanaFormulario()">
+                <option value="infinitos">Diamantes Infinitos</option>
+                <option value="por_id">Diamantes (1 Vez por ID)</option>
+                <option value="otros">Pases, Fragmentos o Cajas</option>
+            </select>
+
+            <div id="div_infinitos">
+                <label>Paquete:</label>
+                <select id="paquete_infinitos">
+                    <option value="100 Diamantes + 10 Bono - $1.290">100 Diamantes + 10 Bono - $1.290</option>
+                    <option value="310 Diamantes + 31 Bono - $3.770">310 Diamantes + 31 Bono - $3.770</option>
+                    <option value="520 Diamantes + 52 Bono - $6.160">520 Diamantes + 52 Bono - $6.160</option>
+                    <option value="1060 Diamantes + 106 Bono - $11.200">1060 Diamantes + 106 Bono - $11.200</option>
+                    <option value="2160 Diamantes + 218 Bono - $21.960">2160 Diamantes + 218 Bono - $21.960</option>
+                    <option value="5600 Diamantes + 560 Bono - $55.400">5600 Diamantes + 560 Bono - $55.400</option>
+                </select>
+            </div>
+
+            <div id="div_por_id" style="display:none;">
+                <label>Paquete (1 por ID):</label>
+                <select id="paquete_por_id">
+                    <option value="110 Diamantes - $900">110 Diamantes - $900</option>
+                    <option value="341 Diamantes - $2.900">341 Diamantes - $2.900</option>
+                    <option value="572 Diamantes - $4.700">572 Diamantes - $4.700</option>
+                    <option value="1.166 Diamantes - $9.000">1.166 Diamantes - $9.000</option>
+                    <option value="2.398 Diamantes - $18.000">2.398 Diamantes - $18.000</option>
+                    <option value="6.160 Diamantes - $44.400">6.160 Diamantes - $44.400</option>
+                </select>
+            </div>
+
+            <div id="div_otros" style="display:none;">
+                <label>Artículo:</label>
+                <select id="producto_especial">
+                    <option value="Pases - $1.900">Pases</option>
+                    <option value="Fragmentos - $90 c/u">Fragmentos</option>
+                    <option value="Cajas EVOS - $300 c/u">Cajas EVOS</option>
+                </select>
+                
+                <label>Cantidad:</label>
+                <input type="number" id="cantidad" value="1" min="1">
+            </div>
+
+            <label>Método de Pago:</label>
+            <select id="metodo_pago">
+                <option value="MercadoPago">MercadoPago</option>
+                <option value="Transferencia">Transferencia Bancaria</option>
+                <option value="Ualá">Ualá</option>
+            </select>
+
+            <button class="btn-comprar" onclick="enviarPedido()">📲 Enviar Pedido por WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        function cambiarPestana(seccion, event) {
+            // Ocultar todas las secciones de contenido
+            document.querySelectorAll('.seccion-contenido').forEach(el => el.classList.remove('activo'));
+            // Desactivar todos los botones de pestañas
+            document.querySelectorAll('.btn-pestana').forEach(el => el.classList.remove('activo'));
+            
+            // Mostrar la seleccionada
+            document.getElementById('tab-' + seccion).classList.add('activo');
+            if(event) {
+                event.currentTarget.classList.add('activo');
+            }
+
+            // Sincronizar el select del formulario
+            document.getElementById('tipo_compra').value = seccion;
+            actualizarFormularioSelect(seccion);
+        }
+
+        function sincronizarPestanaFormulario() {
+            const tipo = document.getElementById('tipo_compra').value;
+            
+            // Cambiar pestaña visualmente
+            document.querySelectorAll('.seccion-contenido').forEach(el => el.classList.remove('activo'));
+            document.querySelectorAll('.btn-pestana').forEach(el => el.classList.remove('activo'));
+            
+            document.getElementById('tab-' + tipo).classList.add('activo');
+            
+            // Activar botón superior correspondiente
+            const botones = document.querySelectorAll('.btn-pestana');
+            if(tipo === 'infinitos') botones[0].classList.add('activo');
+            if(tipo === 'por_id') botones[1].classList.add('activo');
+            if(tipo === 'otros') botones[2].classList.add('activo');
+
+            actualizarFormularioSelect(tipo);
+        }
+
+        function actualizarFormularioSelect(tipo) {
+            document.getElementById('div_infinitos').style.display = 'none';
+            document.getElementById('div_por_id').style.display = 'none';
+            document.getElementById('div_otros').style.display = 'none';
+            
+            if (tipo === 'infinitos') {
+                document.getElementById('div_infinitos').style.display = 'block';
+            } else if (tipo === 'por_id') {
+                document.getElementById('div_por_id').style.display = 'block';
+            } else {
+                document.getElementById('div_otros').style.display = 'block';
+            }
+        }
+
+        function enviarPedido() {
+            const numeroTelefono = "5493813461532";
+            const idJugador = document.getElementById('id_jugador').value.trim();
+            const metodoPago = document.getElementById('metodo_pago').value;
+            const tipo = document.getElementById('tipo_compra').value;
+
+            if (idJugador === "") {
+                alert("Por favor, ingresa tu ID de jugador.");
+                return;
+            }
+
+            let productoSeleccionado = "";
+
+            if (tipo === 'infinitos') {
+                productoSeleccionado = "Diamantes Infinitos: " + document.getElementById('paquete_infinitos').value;
+            } else if (tipo === 'por_id') {
+                productoSeleccionado = "Diamantes (1 Vez por ID): " + document.getElementById('paquete_por_id').value;
+            } else {
+                const prod = document.getElementById('producto_especial').value;
+                const cant = document.getElementById('cantidad').value || 1;
+                
+                if (prod.includes("Fragmentos") || prod.includes("Cajas EVOS")) {
+                    productoSeleccionado = `${prod} (Cantidad: ${cant})`;
+                } else {
+                    productoSeleccionado = prod;
+                }
+            }
+
+            const mensaje = `¡Hola! Quiero hacer un pedido en *THIAGO STORE*:\n\n` +
+                            `📌 *ID del Jugador:* ${idJugador}\n` +
+                            `💎 *Producto:* ${productoSeleccionado}\n` +
+                            `💳 *Método de pago:* ${metodoPago}\n\n` +
+                            `¿Me confirmas los datos?`;
+
+            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensaje)}`;
+            window.location.href = urlWhatsApp;
+        }
+    </script>
+</body>
+</html>
